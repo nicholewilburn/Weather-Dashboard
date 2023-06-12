@@ -32,10 +32,14 @@ section {
     margin:auto;
 }
 #left-container {
-    width: 35%;
+    width: 25%;
     padding: 10px;
 }
 #right-container {
-    width: 50%;
+    width: 70%;
     padding: 10px;
+}
+#city-name, #today-date {
+    font-size: 24px;
+    font-weight: bolder;
 }
