@@ -24,6 +24,22 @@ var todayHumidEl = document.getElementById("today-humid");
 //event listeners
 searchBtn.addEventListener('click', grabSearch);
 
+//localstorage
+var previousData = localStorage.getItem("cityNames");
+//add previous searches to the html
+if (previousData == null){
+    var previousData = [];
+}
+else {
+    console.log(previousData);
+for (let i = 0; i < previousData.length; i++) {
+    var cityName = previousData[i];
+    var cityBtn = document.createElement("button");
+    cityBtn.textContent = cityName;
+    cityContainer.appendChild(cityBtn);
+}
+}
+
 //make things happen when the search button gets clicked
 function grabSearch () {
 
@@ -46,6 +62,14 @@ function grabSearch () {
 
         console.log("LATITUDE AND LONGITUDE");
         console.log(location);
+
+                    //make sure to put the new city search in the container and add to ls
+                    previousData.push(searchText);
+                    console.log(previousData);
+                    localStorage.setItem("cityNames", previousData);
+                    var cityBtn = document.createElement("button");
+                    cityBtn.textContent = searchText;
+                    cityContainer.appendChild(cityBtn);
 
         if (location.length == 0) {
             alert("City not found.");
@@ -70,6 +94,7 @@ function grabSearch () {
             }
         })
         .then(  function(data) {
+
             console.log("LOCATION DATA");
             console.log(data);
 
@@ -79,6 +104,11 @@ function grabSearch () {
             todayWindEl.textContent = "Wind: " + data.list[0].wind.speed;
             todayHumidEl.textContent = "Humidity: " + data.list[0].main.humidity;
         
+            //delete any previous 5day data first
+            while (fivedayContainer.lastElementChild) {
+              fivedayContainer.removeChild(fivedayContainer.lastElementChild);
+            }
+
             //lets dynamically create elements for each day
             for (let i = 0; i < 5; i++) {
 
