@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <header>
+            Weather Dashboard 
+    </header>
+    <main>
+        <section id="left-container">
+            Search for a City:
+            <input type="search" id="search-box">
+            <button id="search-btn">Search</button>
+            <hr>
+            <div id="city-container"></div>
+        </section>
+        <section id="right-container">
+            <div id="forecast-container"></div>
+            <hr>
+            <div id="fiveday-container"></div>
+        </section>
+    </main>
+</body>
+
+<script src="script.js"></script>
+
+</html>

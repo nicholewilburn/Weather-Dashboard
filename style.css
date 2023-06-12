@@ -1,0 +1,41 @@
+* {
+    font-family: 'IBM Plex Mono', monospace;
+}
+body { 
+    background-color: black;
+}
+hr {
+    width: 80%;
+    outline: 1px;
+    margin-top: 10px;
+}
+header {
+    display: block;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    color: white;
+    font-size:30px;
+    font-family: 'Fragment Mono', monospace;
+    margin-left: 100px;
+}
+main {
+    display:flex;
+    flex-wrap:wrap;
+    margin:auto;
+    padding-top: 20px;
+}
+section {
+    display:flex;
+    flex-direction: column;
+    background-color: white;
+    opacity: 0.8;
+    margin:auto;
+}
+#left-container {
+    width: 35%;
+    padding: 10px;
+}
+#right-container {
+    width: 50%;
+    padding: 10px;
+}
