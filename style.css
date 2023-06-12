@@ -34,6 +34,7 @@ section {
 #left-container {
     width: 25%;
     padding: 10px;
+    justify-content:start;
 }
 #right-container {
     width: 70%;
@@ -58,4 +59,12 @@ section {
 #fiveday-container h1 {
     font-weight:bolder;
     font-size: 18px;
+}
+#fiveday-container img {
+    width:30px;
+    height:30px;
+}
+#today-icon {
+    width: 40px;
+    height:40px;
 }
