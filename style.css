@@ -43,3 +43,19 @@ section {
     font-size: 24px;
     font-weight: bolder;
 }
+#fiveday-container {
+    display:flex;
+    flex-wrap:wrap;
+}
+#fiveday-container div {
+    flex-direction: column;
+    flex-wrap:wrap;
+    outline: 1px solid black;
+    width: 18%;
+    margin:auto;
+    padding: 5px;
+}
+#fiveday-container h1 {
+    font-weight:bolder;
+    font-size: 18px;
+}
