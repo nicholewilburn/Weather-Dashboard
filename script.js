@@ -16,6 +16,7 @@ var forecastContainer = document.getElementById("forecast-container");
 var fivedayContainer = document.getElementById("fiveday-container");
 
 var cityNameEl = document.getElementById("city-name");
+var todayIconEl = document.getElementById("today-icon");
 var todayDateEl = document.getElementById("today-date");
 var todayTemperatureEl = document.getElementById("today-temperature");
 var todayWindEl = document.getElementById("today-wind");
@@ -25,20 +26,22 @@ var todayHumidEl = document.getElementById("today-humid");
 searchBtn.addEventListener('click', grabSearch);
 
 //localstorage
-var previousData = localStorage.getItem("cityNames");
+//var previousData = localStorage.getItem("cityNames");
+//var arrayData = previousData.split();
+//console.log(arrayData);
 //add previous searches to the html
-if (previousData == null){
-    var previousData = [];
-}
-else {
-    console.log(previousData);
-for (let i = 0; i < previousData.length; i++) {
-    var cityName = previousData[i];
-    var cityBtn = document.createElement("button");
-    cityBtn.textContent = cityName;
-    cityContainer.appendChild(cityBtn);
-}
-}
+//if (previousData == null){
+//    var previousData = [];
+//}
+//else {
+//    console.log(previousData);
+//for (let i = 0; i < previousData.length; i++) {
+//    var cityName = previousData;
+//    var cityBtn = document.createElement("button");
+//    cityBtn.textContent = cityName;
+//    cityContainer.appendChild(cityBtn);
+//}
+//}
 
 //make things happen when the search button gets clicked
 function grabSearch () {
@@ -64,12 +67,12 @@ function grabSearch () {
         console.log(location);
 
                     //make sure to put the new city search in the container and add to ls
-                    previousData.push(searchText);
-                    console.log(previousData);
-                    localStorage.setItem("cityNames", previousData);
-                    var cityBtn = document.createElement("button");
-                    cityBtn.textContent = searchText;
-                    cityContainer.appendChild(cityBtn);
+                    //previousData.push(searchText);
+                    //console.log(previousData);
+                    //localStorage.setItem("cityNames", previousData);
+                    //var cityBtn = document.createElement("button");
+                    //cityBtn.textContent = searchText;
+                    //cityContainer.appendChild(cityBtn);
 
         if (location.length == 0) {
             alert("City not found.");
@@ -98,11 +101,13 @@ function grabSearch () {
             console.log("LOCATION DATA");
             console.log(data);
 
+            var newSRC = "https://openweathermap.org/img/wn/"+ data.list[0].weather[0].icon +".png";
             cityNameEl.textContent = data.city.name;
+            todayIconEl.src = newSRC;
             todayDateEl.textContent = date;
-            todayTemperatureEl.textContent = "Temperature: " + data.list[0].main.temp;
-            todayWindEl.textContent = "Wind: " + data.list[0].wind.speed;
-            todayHumidEl.textContent = "Humidity: " + data.list[0].main.humidity;
+            todayTemperatureEl.textContent = "Temperature: " + data.list[0].main.temp + " F";
+            todayWindEl.textContent = "Wind: " + data.list[0].wind.speed + " MPH";
+            todayHumidEl.textContent = "Humidity: " + data.list[0].main.humidity + " %";
         
             //delete any previous 5day data first
             while (fivedayContainer.lastElementChild) {
@@ -110,10 +115,11 @@ function grabSearch () {
             }
 
             //lets dynamically create elements for each day
-            for (let i = 0; i < 5; i++) {
+            for (let i = 1; i < 6; i++) {
 
                 console.log("creating element");
                 var fivedayEl = document.createElement("div");
+                var fivedayIconEl = document.createElement("img");
                 var fivedayDateEl = document.createElement("h1");
                 var fivedayTempEl = document.createElement("p");
                 var fivedayWindEl = document.createElement("p");
@@ -122,6 +128,9 @@ function grabSearch () {
                 //get the nextday date
                 var nextDay = dayjs().add(i + 1, 'day').format('(MM/DD/YYYY)');
                 console.log(nextDay);
+                //get the next icon src
+                newSRC = "https://openweathermap.org/img/wn/"+ data.list[i].weather[0].icon +".png";
+                fivedayIconEl.src = newSRC;
 
                 fivedayDateEl.textContent = nextDay;
                 fivedayTempEl.textContent = "Temp: " + data.list[i].main.temp;
@@ -129,6 +138,7 @@ function grabSearch () {
                 fivedayHumidityEl.textContent = "Humidity: " + data.list[i].main.humidity; 
 
                 fivedayEl.appendChild(fivedayDateEl);
+                fivedayEl.appendChild(fivedayIconEl);
                 fivedayEl.appendChild(fivedayTempEl);
                 fivedayEl.appendChild(fivedayWindEl);
                 fivedayEl.appendChild(fivedayHumidityEl);
