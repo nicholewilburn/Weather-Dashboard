@@ -22,40 +22,63 @@ var todayTemperatureEl = document.getElementById("today-temperature");
 var todayWindEl = document.getElementById("today-wind");
 var todayHumidEl = document.getElementById("today-humid");
 
+var clearBtn = document.getElementById("clear");
+var aButton = document.getElementsByClassName("itsabutton");
+
 //event listeners
 searchBtn.addEventListener('click', grabSearch);
+clearBtn.addEventListener('click', clearLS);
+cityContainer.addEventListener('click', aFunction);
 
-//localstorage
-//var previousData = localStorage.getItem("cityNames");
-//var arrayData = previousData.split();
-//console.log(arrayData);
-//add previous searches to the html
-//if (previousData == null){
-//    var previousData = [];
-//}
-//else {
-//    console.log(previousData);
-//for (let i = 0; i < previousData.length; i++) {
-//    var cityName = previousData;
-//    var cityBtn = document.createElement("button");
-//    cityBtn.textContent = cityName;
-//    cityContainer.appendChild(cityBtn);
-//}
-//}
+//Local storage
+var lsData = JSON.parse(localStorage.getItem("cityNames"));
+console.log(lsData);
+if (lsData == null) {
+    lsData = [];
+}
+else {
+    console.log(lsData);
+for (let i = 0; i < lsData.length; i++) {
+    var cityName = lsData[i];
+    var cityBtn = document.createElement("button");
+    cityBtn.textContent = cityName;
+    //cityBtn.setAttribute("class","itsabutton");
+    cityBtn.setAttribute("data-city",cityName);
+    cityBtn.classList.add("itsbutton");
+    cityContainer.appendChild(cityBtn);
+}
+}
+
+function clearLS(){
+    localStorage.clear();
+    //clear any persisting data on the screen too
+    while (cityContainer.lastElementChild) {
+        cityContainer.removeChild(cityContainer.lastElementChild);
+      }
+}
 
 //make things happen when the search button gets clicked
-function grabSearch () {
+function grabSearch (city) {
 
-    var searchText = searchInput.value;
+    var searchText;
+    console.log(city);
+
+    if (typeof city !== "string"){
+        searchText = searchInput.value;
+    }
+    else {
+        searchText = city;
+    }
 
     console.log("USER INPUT");
     console.log(searchText);
 
-    getLocationAPI();
+    getLocationAPI(searchText);
 
     //api for locataion call
-    function getLocationAPI() {
+    function getLocationAPI(searchText) {
     var locationURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchText +"&limit=1&appid=" + apiKey;
+    console.log(locationURL);
 
     fetch(locationURL)
     .then(  function(reponse) {
@@ -66,13 +89,21 @@ function grabSearch () {
         console.log("LATITUDE AND LONGITUDE");
         console.log(location);
 
-                    //make sure to put the new city search in the container and add to ls
-                    //previousData.push(searchText);
-                    //console.log(previousData);
-                    //localStorage.setItem("cityNames", previousData);
-                    //var cityBtn = document.createElement("button");
-                    //cityBtn.textContent = searchText;
-                    //cityContainer.appendChild(cityBtn);
+                    //store new city data
+                    if (lsData.includes(searchText)) {
+                        lsData = lsData;
+                    }
+                    else {
+                        lsData.push(searchText);
+                    }
+                console.log(lsData);
+                    localStorage.setItem("cityNames", JSON.stringify(lsData));
+
+                    var cityBtn = document.createElement("button");
+                    cityBtn.textContent = searchText;
+                    cityBtn.setAttribute("class","itsabutton");
+                    cityContainer.appendChild(cityBtn);
+                
 
         if (location.length == 0) {
             alert("City not found.");
@@ -155,3 +186,14 @@ function grabSearch () {
 }//end getLocationAPI
 
 }//end grabSearch
+
+//make the Previous Search buttons work
+
+function aFunction (event) {
+    var btnEl = event.target;
+    var btnText = btnEl.getAttribute("data-city");
+    console.log("USER INPUT");
+    console.log(btnText);
+
+    grabSearch(btnText);
+}
